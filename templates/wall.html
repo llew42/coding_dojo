@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+  <title>Login and Registration</title>
+</head>
+<style>
+  .red{
+    color: red;
+  }
+  img{
+    width: 60px;
+    margin-right: 150px;
+    vertical-align: top;
+  }
+  .lead{
+    margin: 0;
+  }
+  .message{
+    padding-bottom: 60px;
+    max-width: 350px;
+  }
+  h2{
+    padding-bottom: 10px;
+    text-decoration: underline;
+  }
+</style>
+<body>
+  <div class="container-fluid">
+    <div class="jumbotron jumbotron-fluid" style="background-color: #64d5f1;">
+      <div class="row">
+        <div class="col">
+          <h1 class="display-4" style="display: inline-block; margin-left: 80px;">Coding Dojo Wall</h1>
+        </div>
+        <div class="col">
+          <h3 style="display: inline-block; margin-top:22px; margin-left: 75px;">Welcome, {{ all_users[0]['first_name'] }}!</h3><a href="/logout" style="margin-left: 30px; color: #0a1518;">Log Out</a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="row" style="margin-left: 100px;">
+<!-- .datetime.datetime.strftime()  -->
+
+        <div class="col">
+        <h2>{{ message_total }} Message(s) for You</h2>
+          {% for i in display %}
+          <p class="lead">{{ i['first_name'] }} said {{ i['created_at']}}<a href="/delete/{{ i['messages.id'] }}"><img src="{{ url_for('static', filename='img/trashcan.gif') }}" class="img-fluid float-right"></a></p> 
+          <p class="message">{{ i['content'] }}</p>
+          {% endfor %}
+        </div>
+        <div class="col">
+        <h2>Send Messages</h2>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages%}
+              <p class="red">{{ message }}</p>
+              {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <p>You've sent {{ sent_messages[0]['COUNT(*)'] }} messages so far</p>
+        {% for recipient in recipients %}
+          {% if recipient['id'] != session['userid'] %}
+        <form action="/messages" method="POST">
+          <div class="form-group">
+          {{ recipient['first_name'] }} <input class="form-control" type="textarea" name="message" style="width: 350px;">
+          <input type="hidden" name="recipient_id" value="{{ recipient['id'] }}" style="display: inline-block;">
+          <input type="submit" class="btn btn-secondary" value="Send" style="margin-top: 15px; display: inline-block;">
+          </div>
+        </form> 
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

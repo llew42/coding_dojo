@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+  <title>Login and Registration</title>
+</head>
+<style>
+  .red{
+    color: red;
+  }
+</style>
+<body>
+  <div class="container-fluid" style="padding-bottom: 50px;">
+    <div class="jumbotron jumbotron-fluid" style="background-color: #64d5f1; text-align: center;">
+      <h1>Welcome to the Dojo Wall</h1>
+      <h4 class="lead">Please login or register</h4>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages%}
+          <p class="red">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+    <div class="row" style="margin-left: 100px;">
+      <div class="col">
+        <h1 style="text-decoration: underline; padding-bottom: 15px;">Registration</h1>
+        <form action="/register" method="POST">
+          <p>First Name <input type="text" name="fname" class="form-control"></p>
+          <p>Last Name <input type="text" name="lname" class="form-control"></p>
+          <p>Email <input type="text" name="email" class="form-control"></p>
+          <p>Password <input type="password" name="pw" class="form-control"></p>
+          <p>Confirm Password <input type="password" name="pw_confirm" class="form-control"></p>
+          <input class="btn btn-outline-primary" type="submit" value="Register">
+        </form>
+      </div>
+      <div class="col">
+        <h1 style="text-decoration: underline; padding-bottom: 15px;">Login</h1>
+        <form action="/login" method="POST">
+          <p>Email <input type="text" name="em" class="form-control"></p>
+          <p>Password <input type="password" name="password" class="form-control"></p>
+          <input class="btn btn-outline-success" type="submit" value="Log In">
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
